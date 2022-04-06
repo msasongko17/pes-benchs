@@ -1,4 +1,4 @@
-all:	cache-misses-install cache-misses-run
+all:	cache-misses-install cache-misses-perf-install cache-misses-run cache-misses-perf-run
 
 cache-misses-install:	cache_misses_asm_per20.c cache_misses_asm_per40.c cache_misses_asm_per60.c cache_misses_asm_per80.c cache_misses_asm_per100.c
 	gcc cache_misses_asm_per20.c -o cache_misses_asm_per20 -fopenmp
@@ -6,6 +6,20 @@ cache-misses-install:	cache_misses_asm_per20.c cache_misses_asm_per40.c cache_mi
 	gcc cache_misses_asm_per60.c -o cache_misses_asm_per60 -fopenmp
 	gcc cache_misses_asm_per80.c -o cache_misses_asm_per80 -fopenmp
 	gcc cache_misses_asm_per100.c -o cache_misses_asm_per100 -fopenmp
+
+cache-misses-perf-install:   cache_misses_asm_perf_per20.c cache_misses_asm_perf_per40.c cache_misses_asm_perf_per60.c cache_misses_asm_perf_per80.c cache_misses_asm_perf_per100.c
+	gcc cache_misses_asm_perf_per20.c -o cache_misses_asm_perf_per20 -fopenmp
+	gcc cache_misses_asm_perf_per40.c -o cache_misses_asm_perf_per40 -fopenmp
+	gcc cache_misses_asm_perf_per60.c -o cache_misses_asm_perf_per60 -fopenmp
+	gcc cache_misses_asm_perf_per80.c -o cache_misses_asm_perf_per80 -fopenmp
+	gcc cache_misses_asm_perf_per100.c -o cache_misses_asm_perf_per100 -fopenmp
+
+inst-perf-install:   inst_asm_perf_per20.c inst_asm_perf_per40.c inst_asm_perf_per60.c inst_asm_perf_per80.c inst_asm_perf_per100.c
+	gcc inst_asm_perf_per20.c -o inst_asm_perf_per20 -fopenmp
+	gcc inst_asm_perf_per40.c -o inst_asm_perf_per40 -fopenmp
+	gcc inst_asm_perf_per60.c -o inst_asm_perf_per60 -fopenmp
+	gcc inst_asm_perf_per80.c -o inst_asm_perf_per80 -fopenmp
+	gcc inst_asm_perf_per100.c -o inst_asm_perf_per100 -fopenmp
 
 cache-misses-run-5x: cache-misses-20-run-5x cache-misses-40-run-5x cache-misses-60-run-5x cache-misses-80-run-5x cache-misses-100-run-5x
 
@@ -61,5 +75,114 @@ cache-misses-80-run:
 cache-misses-100-run:
 	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_per100 2>&1 | tee cache_misses_asm_per100_log
 
+cache-misses-perf-run-5x: cache-misses-20-perf-run-5x cache-misses-40-perf-run-5x cache-misses-60-perf-run-5x cache-misses-80-perf-run-5x cache-misses-100-perf-run-5x
+
+cache-misses-perf-run: cache-misses-20-perf-run cache-misses-40-perf-run cache-misses-60-perf-run cache-misses-80-perf-run cache-misses-100-perf-run
+
+cache-misses-20-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per20 2>&1 | tee cache_misses_asm_perf_per20_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per20 2>&1 | tee -a cache_misses_asm_perf_per20_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per20 2>&1 | tee -a cache_misses_asm_perf_per20_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per20 2>&1 | tee -a cache_misses_asm_perf_per20_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per20 2>&1 | tee -a cache_misses_asm_perf_per20_5x_log
+
+cache-misses-40-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per40 2>&1 | tee cache_misses_asm_perf_per40_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per40 2>&1 | tee -a cache_misses_asm_perf_per40_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per40 2>&1 | tee -a cache_misses_asm_perf_per40_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per40 2>&1 | tee -a cache_misses_asm_perf_per40_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per40 2>&1 | tee -a cache_misses_asm_perf_per40_5x_log
+
+
+cache-misses-60-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per60 2>&1 | tee cache_misses_asm_perf_per60_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per60 2>&1 | tee -a cache_misses_asm_perf_per60_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per60 2>&1 | tee -a cache_misses_asm_perf_per60_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per60 2>&1 | tee -a cache_misses_asm_perf_per60_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per60 2>&1 | tee -a cache_misses_asm_perf_per60_5x_log
+
+cache-misses-80-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per80 2>&1 | tee cache_misses_asm_perf_per80_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per80 2>&1 | tee -a cache_misses_asm_perf_per80_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per80 2>&1 | tee -a cache_misses_asm_perf_per80_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per80 2>&1 | tee -a cache_misses_asm_perf_per80_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per80 2>&1 | tee -a cache_misses_asm_perf_per80_5x_log
+
+cache-misses-100-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per100 2>&1 | tee cache_misses_asm_perf_per100_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per100 2>&1 | tee -a cache_misses_asm_perf_per100_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per100 2>&1 | tee -a cache_misses_asm_perf_per100_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per100 2>&1 | tee -a cache_misses_asm_perf_per100_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per100 2>&1 | tee -a cache_misses_asm_perf_per100_5x_log
+
+cache-misses-20-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per20 2>&1 | tee cache_misses_asm_perf_per20_log
+
+cache-misses-40-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per40 2>&1 | tee cache_misses_asm_perf_per40_log
+
+cache-misses-60-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per60 2>&1 | tee cache_misses_asm_perf_per60_log
+
+cache-misses-80-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per80 2>&1 | tee cache_misses_asm_perf_per80_log
+
+cache-misses-100-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./cache_misses_asm_perf_per100 2>&1 | tee cache_misses_asm_perf_per100_log
+
+inst-perf-run-5x: inst-20-perf-run-5x inst-40-perf-run-5x inst-60-perf-run-5x inst-80-perf-run-5x inst-100-perf-run-5x
+
+inst-perf-run: inst-20-perf-run inst-40-perf-run inst-60-perf-run inst-80-perf-run inst-100-perf-run
+
+inst-20-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per20 2>&1 | tee inst_asm_perf_per20_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per20 2>&1 | tee -a inst_asm_perf_per20_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per20 2>&1 | tee -a inst_asm_perf_per20_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per20 2>&1 | tee -a inst_asm_perf_per20_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per20 2>&1 | tee -a inst_asm_perf_per20_5x_log
+
+inst-40-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per40 2>&1 | tee inst_asm_perf_per40_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per40 2>&1 | tee -a inst_asm_perf_per40_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per40 2>&1 | tee -a inst_asm_perf_per40_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per40 2>&1 | tee -a inst_asm_perf_per40_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per40 2>&1 | tee -a inst_asm_perf_per40_5x_log
+
+inst-60-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per60 2>&1 | tee inst_asm_perf_per60_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per60 2>&1 | tee -a inst_asm_perf_per60_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per60 2>&1 | tee -a inst_asm_perf_per60_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per60 2>&1 | tee -a inst_asm_perf_per60_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per60 2>&1 | tee -a inst_asm_perf_per60_5x_log
+
+inst-80-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per80 2>&1 | tee inst_asm_perf_per80_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per80 2>&1 | tee -a inst_asm_perf_per80_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per80 2>&1 | tee -a inst_asm_perf_per80_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per80 2>&1 | tee -a inst_asm_perf_per80_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per80 2>&1 | tee -a inst_asm_perf_per80_5x_log
+
+inst-100-perf-run-5x:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per100 2>&1 | tee inst_asm_perf_per100_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per100 2>&1 | tee -a inst_asm_perf_per100_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per100 2>&1 | tee -a inst_asm_perf_per100_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per100 2>&1 | tee -a inst_asm_perf_per100_5x_log
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per100 2>&1 | tee -a inst_asm_perf_per100_5x_log
+
+inst-20-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per20 2>&1 | tee inst_asm_perf_per20_log
+
+inst-40-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per40 2>&1 | tee inst_asm_perf_per40_log
+
+inst-60-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per60 2>&1 | tee inst_asm_perf_per60_log
+
+inst-80-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per80 2>&1 | tee inst_asm_perf_per80_log
+
+inst-100-perf-run:
+	OMP_NUM_THREADS=1 GOMP_CPU_AFFINITY="0" /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" ./inst_asm_perf_per100 2>&1 | tee inst_asm_perf_per100_log
+
 clean:
-	rm cache_misses_asm_per20 cache_misses_asm_per40 cache_misses_asm_per60 cache_misses_asm_per80 cache_misses_asm_per100
+	rm cache_misses_asm_per20 cache_misses_asm_per40 cache_misses_asm_per60 cache_misses_asm_per80 cache_misses_asm_per100 cache_misses_asm_perf_per20 cache_misses_asm_perf_per40 cache_misses_asm_perf_per60 cache_misses_asm_perf_per80 cache_misses_asm_perf_per100 inst_asm_perf_per20 inst_asm_perf_per40 inst_asm_perf_per60 inst_asm_perf_per80 inst_asm_perf_per100

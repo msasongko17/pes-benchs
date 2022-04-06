@@ -17,13 +17,6 @@
 #include <sys/ioctl.h>
 #include <asm/unistd.h>
 #include <sys/prctl.h>
-//#include "perf_barrier.h"
-//#include "perf_event.h"
-
-//#include "test_utils.h"
-//#include "perf_helpers.h"
-//#include "matrix_multiply.h"
-//#include "parse_record.h"
 #include <linux/perf_event.h>
 #if defined(__x86_64__) || defined(__i386__) ||defined(__arm__)
 #include <asm/perf_regs.h>
@@ -35,9 +28,6 @@
 #define SAMPLE_PERIOD 100000
 
 #define MMAP_DATA_SIZE 32
-
-#define RAW_IBS_FETCH   1
-#define RAW_IBS_OP      2
 
 /* Global vars as I'm lazy */
 static int count_total=0;
@@ -74,6 +64,7 @@ int main(int argc, char **argv) {
 	clock_t start, end;
         double cpu_time_used;
 	int ret;
+	int pebs_count;
 	//int fd;
 	int mmap_pages=1+MMAP_DATA_SIZE;
 
@@ -101,10 +92,10 @@ int main(int argc, char **argv) {
         //pe.config=PERF_COUNT_HW_INSTRUCTIONS;
 
 	 /* MEM_UOPS_RETIRED:ALL_LOADS */
-	//pe.config = 0x81d0;
+	pe.config = 0x81d0;
 	//pe.config = 0x08d1;
 	/* INST_RETIRED.PREC_DIST */
-	pe.config = 0x01c0;
+	//pe.config = 0x01c0;
 
         pe.sample_period=SAMPLE_PERIOD;
         pe.sample_type=sample_type;
@@ -128,10 +119,11 @@ int main(int argc, char **argv) {
 	our_mmap=mmap(NULL, mmap_pages*4096,
 		PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
-	fcntl(fd, F_SETFL, O_RDWR|O_NONBLOCK|O_ASYNC);
-	fcntl(fd, F_SETSIG, SIGIO);
-	fcntl(fd, F_SETOWN,getpid());
-
+	//fcntl(fd, F_SETFL, O_RDWR|O_NONBLOCK|O_ASYNC);
+	//fcntl(fd, F_SETSIG, SIGIO);
+	//fcntl(fd, F_SET
+	//ioctl(fd, PERF_EVENT_IOC_PEBS_INTERRUPT_COUNT, 0);
+	
 
 	// populating memory
     	srand(time(NULL));
@@ -152,6 +144,9 @@ int main(int argc, char **argv) {
           indices[i*32] = t;
         }
 
+        #pragma omp parallel
+        {
+
         for (i = 0; i < SIZE; i += 32) {
             asm volatile("clflush (%0)\n\t"
                          :
@@ -165,6 +160,7 @@ int main(int argc, char **argv) {
                  : "memory");
 
 	start = clock();
+	//ioctl(fd, PERF_EVENT_IOC_PEBS_INTERRUPT_COUNT, 0);
 	ioctl(fd, PERF_EVENT_IOC_RESET, 0);
 
 	ret=ioctl(fd, PERF_EVENT_IOC_ENABLE,0);
@@ -176,7 +172,7 @@ int main(int argc, char **argv) {
 		exit(1);
 	}	
 
-	ioctl(fd, PERF_EVENT_IOC_PEBS_INTERRUPT_COUNT, 0);
+	ioctl(fd, PERF_EVENT_IOC_PEBS_SAMPLE_COUNT, 0);
 	__asm__ __volatile__ ("movl $1000000, %%edx\n\t"
                 "loop1:\n\t"
                 "movl $1000, %%eax\n\t"
@@ -198,12 +194,6 @@ int main(int argc, char **argv) {
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
 
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-
 		"addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
@@ -226,7 +216,7 @@ int main(int argc, char **argv) {
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"	
 
 		"addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
@@ -240,29 +230,17 @@ int main(int argc, char **argv) {
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
 
-		"addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
 
-		"addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
-
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
-                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"	
 
 		"addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
@@ -271,6 +249,24 @@ int main(int argc, char **argv) {
                 "addq $1, %%r8\n\t"
 
                 "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"	
+
+		"addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
@@ -286,26 +282,29 @@ int main(int argc, char **argv) {
                 : "%edx", "%eax", "%ebx", "memory", "cc"
                 );
 
-	int pebs_count = ioctl(fd, PERF_EVENT_IOC_PEBS_INTERRUPT_COUNT, 0);
-        ret=ioctl(fd, PERF_EVENT_IOC_REFRESH,0);
+	pebs_count = ioctl(fd, PERF_EVENT_IOC_PEBS_SAMPLE_COUNT, 0);
+	ret=ioctl(fd, PERF_EVENT_IOC_REFRESH,0);
 
-        end = clock();
+	end = clock();
 
         cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
+	}
+
         printf("elapsed time: %0.3lf\n", cpu_time_used);
-        if (count_total==0) {
-                printf("No overflow events generated.\n");
-                //test_fail(test_string);
-        }
-        munmap(our_mmap,mmap_pages*4096);
+	if (count_total==0) {
+		printf("No overflow events generated.\n");
+		//test_fail(test_string);
+	}
+	munmap(our_mmap,mmap_pages*4096);
 
-        close(fd);
+	close(fd);
 
-        free(indices);
-        //test_pass(test_string);
-        printf("count_total: %d\n", count_total);
-        printf("pebs_count: %d\n", pebs_count);	
+	free(indices);
+	//test_pass(test_string);
+	printf("count_total: %d\n", count_total);
+	printf("pebs_count: %d\n", pebs_count);
+
 	return 0;
 }
 

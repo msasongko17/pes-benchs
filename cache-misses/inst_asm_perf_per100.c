@@ -92,10 +92,10 @@ int main(int argc, char **argv) {
         //pe.config=PERF_COUNT_HW_INSTRUCTIONS;
 
 	 /* MEM_UOPS_RETIRED:ALL_LOADS */
-	pe.config = 0x81d0;
+	//pe.config = 0x81d0;
 	//pe.config = 0x08d1;
 	/* INST_RETIRED.PREC_DIST */
-	//pe.config = 0x01c0;
+	pe.config = 0x01c0;
 
         pe.sample_period=SAMPLE_PERIOD;
         pe.sample_type=sample_type;
