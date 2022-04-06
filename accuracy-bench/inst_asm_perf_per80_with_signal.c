@@ -92,10 +92,10 @@ int main(int argc, char **argv) {
         //pe.config=PERF_COUNT_HW_INSTRUCTIONS;
 
 	 /* MEM_UOPS_RETIRED:ALL_LOADS */
-	pe.config = 0x81d0;
+	//pe.config = 0x81d0;
 	//pe.config = 0x08d1;
 	/* INST_RETIRED.PREC_DIST */
-	//pe.config = 0x01c0;
+	pe.config = 0x01c0;
 
         pe.sample_period=SAMPLE_PERIOD;
         pe.sample_type=sample_type;
@@ -119,9 +119,9 @@ int main(int argc, char **argv) {
 	our_mmap=mmap(NULL, mmap_pages*4096,
 		PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
-	//fcntl(fd, F_SETFL, O_RDWR|O_NONBLOCK|O_ASYNC);
-	//fcntl(fd, F_SETSIG, SIGIO);
-	//fcntl(fd, F_SETOWN,getpid());
+	fcntl(fd, F_SETFL, O_RDWR|O_NONBLOCK|O_ASYNC);
+	fcntl(fd, F_SETSIG, SIGIO);
+	fcntl(fd, F_SETOWN,getpid());
 	//ioctl(fd, PERF_EVENT_IOC_PEBS_INTERRUPT_COUNT, 0);
 	
 
@@ -194,7 +194,79 @@ int main(int argc, char **argv) {
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
 
+		"addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+		"addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"	
+
+		"addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"	
+
+		"addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"
+                "addq $1, %%r8\n\t"	
+
+		"addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
                 "addq $1, %%r8\n\t"
