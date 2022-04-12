@@ -1,4 +1,4 @@
-all:	cache-misses-install cache-misses-perf-install cache-misses-run cache-misses-perf-run
+all:	cache-misses-install cache-misses-perf-install cache-misses-perf-with-signal-install inst-perf-install inst-perf-with-signal-install cache-misses-run-5x cache-misses-perf-run-5x cache-misses-with-signal-perf-run-5x inst-perf-run-5x inst-with-signal-perf-run-5x
 
 cache-misses-install:	cache_misses_asm_per20.c cache_misses_asm_per40.c cache_misses_asm_per60.c cache_misses_asm_per80.c cache_misses_asm_per100.c
 	gcc cache_misses_asm_per20.c -o cache_misses_asm_per20 -fopenmp

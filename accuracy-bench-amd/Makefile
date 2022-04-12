@@ -1,4 +1,4 @@
-all:	cache-misses-install cache-misses-ibs-install cache-misses-run cache-misses-ibs-run
+all:	cache-misses-install cache-misses-ibs-install cache-misses-ibs-with-signal-install op-ibs-install op-ibs-with-signal-install fetch-ibs-install fetch-ibs-with-signal-install cache-misses-run-5x  cache-misses-ibs-run-5x cache-misses-with-signal-ibs-run-5x op-ibs-run-5x op-with-signal-ibs-run-5x fetch-ibs-run-5x fetch-with-signal-ibs-run-5x
 
 cache-misses-install:	cache_misses_asm_per20.c cache_misses_asm_per40.c cache_misses_asm_per60.c cache_misses_asm_per80.c cache_misses_asm_per100.c
 	gcc cache_misses_asm_per20.c -o cache_misses_asm_per20 -fopenmp
